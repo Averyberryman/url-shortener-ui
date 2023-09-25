@@ -8,16 +8,18 @@ function App () {
   const [urls, setUrls] = useState([]);
 
   useEffect(() => {
-       getUrls()
-         .then(data => setUrls(data.urls))
-         .catch(error => console.error("Error fetching URLs:", error));
-   }, []);
+    getUrls().then(data => setUrls(data.urls));
+  }, []);
+
+  const addNewUrl = (newUrl) => {
+    setUrls(prevUrls => [...prevUrls, newUrl]);
+  }
 
   return (
     <main className="App">
       <header>
         <h1>URL Shortener</h1>
-        <UrlForm />
+        <UrlForm onUrlAdded={addNewUrl} />
       </header>
       <UrlContainer urls={urls} />
     </main>
