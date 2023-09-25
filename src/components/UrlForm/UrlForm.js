@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
+import { postUrl } from '../../apiCalls';
 
-function UrlForm() {
+function UrlForm({ onUrlAdded }) {
   const [title, setTitle] = useState('');
   const [urlToShorten, setUrlToShorten] = useState('');
 
   const handleSubmit = e => {
     e.preventDefault();
-    clearInputs();
+    postUrl(urlToShorten, title)
+      .then(newUrl => {
+        onUrlAdded(newUrl);
+        clearInputs();
+      })
+      .catch(error => {
+        console.error('Error adding new URL:', error);
+      });
   }
 
   const clearInputs = () => {
@@ -36,7 +44,7 @@ function UrlForm() {
         Shorten Please!
       </button>
     </form>
-  )
+  );
 }
 
 export default UrlForm;
